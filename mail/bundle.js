@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const Router = __webpack_require__(1);
-
+	const Inbox = __webpack_require__(2);
 
 	document.addEventListener("DOMContentLoaded", function () {
 	  let sidebar = document.querySelectorAll(".sidebar-nav li");
@@ -54,9 +54,9 @@
 	  });
 
 	  let content = document.querySelector(".content");
-	  const router = new Router(content);
+	  const router = new Router(content, routes);
 	  router.start();
-	  
+
 	});
 
 	function clickHandler (e) {
@@ -66,14 +66,24 @@
 	}
 
 
+	routes = {
+
+	  // compose:
+	  inbox: Inbox
+	  // sent:
+
+	};
+
+
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
 	class Router {
 
-	  constructor(node){
+	  constructor(node, routes){
 	    this.node = node;
+	    this.routes = routes;
 	  }
 
 	  start(){
@@ -84,15 +94,18 @@
 	  render(){
 
 	    this.node.innerHTML = "";
-	    let routeName = this.activeRoute();
-	    let p = document.createElement("p");
-	    p.innerHTML = routeName;
-	    this.node.appendChild(p);
+	    let component = this.activeRoute();
+
+	    if (component){
+	      component = component.render();
+	      this.node.appendChild(component);
+	    }
 	  }
 
 	  activeRoute(){
 	    let location = window.location.hash;
-	    return location.slice(1);
+	    location = location.slice(1);
+	    return this.routes[location];
 	  }
 
 
@@ -100,6 +113,66 @@
 
 
 	module.exports = Router;
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	let MessageStore = __webpack_require__(3);
+
+	const Inbox = {
+	  render: ()=>{
+	    let ul = document.createElement("ul");
+	    ul.className = "messages";
+	    let messages = MessageStore.getInboxMessages();
+	    messages.forEach((message) => {
+	      let renderedMessage = this.renderMessage(message);
+	      ul.appendChild(renderedMessage);
+	    });
+	    return ul;
+	  },
+
+	  renderMessage: (message) => {
+	    let li = document.createElement("li");
+	    li.className = "message";
+	    li.innerHTML = "";
+	    let fromSpan = document.createElement("span");
+
+	  }
+	};
+
+	module.exports = Inbox;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	let messages = {
+	  sent: [
+	    {to: "friend@mail.com", subject: "Check this out", body: "It's so cool"},
+	    {to: "person@mail.com", subject: "zzz", body: "so booring"}
+	  ],
+	  inbox: [
+	    {from: "grandma@mail.com", subject: "Fwd: Fwd: Fwd: Check this out", body:
+	"Stay at home mom discovers cure for leg cramps. Doctors hate her"},
+	  {from: "person@mail.com", subject: "Questionnaire", body: "Take this free quiz win $1000 dollars"}
+	]
+	};
+
+	const MessageStore = {
+
+	  getInboxMessages: () => {
+	    return messages.inbox;
+	  },
+
+	  getSentMessages: () => {
+	    return messages.sent;
+	  }
+	};
+
+	module.exports = MessageStore;
 
 
 /***/ }

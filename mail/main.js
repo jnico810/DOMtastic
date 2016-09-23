@@ -1,5 +1,5 @@
 const Router = require('./router');
-
+const Inbox = require('./inbox');
 
 document.addEventListener("DOMContentLoaded", function () {
   let sidebar = document.querySelectorAll(".sidebar-nav li");
@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   let content = document.querySelector(".content");
-  const router = new Router(content);
+  const router = new Router(content, routes);
   router.start();
-  
+
 });
 
 function clickHandler (e) {
@@ -18,3 +18,12 @@ function clickHandler (e) {
   let text = li.textContent.toLowerCase();
   window.location.hash = text;
 }
+
+
+routes = {
+
+  // compose:
+  inbox: Inbox
+  // sent:
+
+};
