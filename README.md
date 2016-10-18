@@ -127,7 +127,7 @@ To retrieve the parents of all matched elements as an array:
 dT('ul').parent();
 ```
 
-### .remove()
+#### .remove()
 To remove a elements from the document:
 ```bash
 dT('ul').remove('li') //Removes all 'li' that are descendants of matched 'ul'
