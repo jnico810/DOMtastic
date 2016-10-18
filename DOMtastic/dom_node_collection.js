@@ -1,46 +1,46 @@
 class DOMCollection {
-  constructor(array) {
-    this.array = array;
+  constructor(doms) {
+    this.doms = doms;
   }
   html(newHTML){
     if (newHTML){
-      this.array.forEach((el) => el.innerHTML = newHTML);
+      this.doms.forEach((el) => el.innerHTML = newHTML);
     } else{
-      return this.array[0].innerHTML;
+      return this.doms[0].innerHTML;
     }
   }
 
   empty(){
-    this.array.forEach((el) => el.innerHTML = "");
+    this.doms.forEach((el) => el.innerHTML = "");
   }
 
   append(child){
     if (child instanceof DOMCollection) {
-      this.array.forEach((el) => (
-        child.array.forEach((childEl) => (
+      this.doms.forEach((el) => (
+        child.doms.forEach((childEl) => (
           el.innerHTML += childEl.outerHTML
         ))
       ));
     } else if (child instanceof HTMLElement) {
-      this.array.forEach((el) => {
+      this.doms.forEach((el) => {
         el.innerHTML += child.outerHTML;
       });
     } else if (typeof child === "string"){
-      this.array.forEach((el) => {
+      this.doms.forEach((el) => {
         el.innerHTML += child;
       });
     }
   }
   attr(attribute, value){
     if (value){
-      this.array.forEach((el) => el.setAttribute(attribute, value));
+      this.doms.forEach((el) => el.setAttribute(attribute, value));
     }else{
-      return this.array[0].getAttribute(attribute);
+      return this.doms[0].getAttribute(attribute);
     }
   }
 
   addClass(newClass){
-    this.array.forEach((el) => {
+    this.doms.forEach((el) => {
       let current = el.getAttribute("class");
       if (current) {
         if (current.indexOf(newClass) === -1){
@@ -53,7 +53,7 @@ class DOMCollection {
     });
   }
   removeClass(removedClass){
-    this.array.forEach((el) => {
+    this.doms.forEach((el) => {
       const current = el.getAttribute("class");
       if (current && current.indexOf(removedClass) != -1) {
         const index = current.indexOf(removedClass);
@@ -68,33 +68,33 @@ class DOMCollection {
 
   children(){
     let children = [];
-    this.array.forEach((el) => children.push(el.children));
+    this.doms.forEach((el) => children.push(el.children));
     return new DOMCollection(children);
   }
 
   parent(){
     let parent = [];
-    this.array.forEach((el) => parent.push(el.parentNode));
+    this.doms.forEach((el) => parent.push(el.parentNode));
     return new DOMCollection(parent);
   }
 
   find(selector){
     let doms = [];
-    this.array.forEach((el) => doms.push(el.querySelectorAll(selector)));
+    this.doms.forEach((el) => doms.push(el.querySelectorAll(selector)));
     return new DOMCollection(doms);
   }
 
   remove(){
-    this.array.forEach((el) => el.parentNode.removeChild(el));
-    this.array = [];
+    this.doms.forEach((el) => el.parentNode.removeChild(el));
+    this.doms = [];
   }
 
   on(occurence, callback){
-    this.array.forEach((el) => el.addEventListener(occurence, callback));
+    this.doms.forEach((el) => el.addEventListener(occurence, callback));
   }
 
   off(occurence, callback){
-    this.array.forEach((el) => el.removeEventListener(occurence, callback));
+    this.doms.forEach((el) => el.removeEventListener(occurence, callback));
   }
 }
 

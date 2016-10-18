@@ -144,27 +144,27 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var DOMCollection = function () {
-	  function DOMCollection(array) {
+	  function DOMCollection(doms) {
 	    _classCallCheck(this, DOMCollection);
 	
-	    this.array = array;
+	    this.doms = doms;
 	  }
 	
 	  _createClass(DOMCollection, [{
 	    key: "html",
 	    value: function html(newHTML) {
 	      if (newHTML) {
-	        this.array.forEach(function (el) {
+	        this.doms.forEach(function (el) {
 	          return el.innerHTML = newHTML;
 	        });
 	      } else {
-	        return this.array[0].innerHTML;
+	        return this.doms[0].innerHTML;
 	      }
 	    }
 	  }, {
 	    key: "empty",
 	    value: function empty() {
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return el.innerHTML = "";
 	      });
 	    }
@@ -172,17 +172,17 @@
 	    key: "append",
 	    value: function append(child) {
 	      if (child instanceof DOMCollection) {
-	        this.array.forEach(function (el) {
-	          return child.array.forEach(function (childEl) {
+	        this.doms.forEach(function (el) {
+	          return child.doms.forEach(function (childEl) {
 	            return el.innerHTML += childEl.outerHTML;
 	          });
 	        });
 	      } else if (child instanceof HTMLElement) {
-	        this.array.forEach(function (el) {
+	        this.doms.forEach(function (el) {
 	          el.innerHTML += child.outerHTML;
 	        });
 	      } else if (typeof child === "string") {
-	        this.array.forEach(function (el) {
+	        this.doms.forEach(function (el) {
 	          el.innerHTML += child;
 	        });
 	      }
@@ -191,17 +191,17 @@
 	    key: "attr",
 	    value: function attr(attribute, value) {
 	      if (value) {
-	        this.array.forEach(function (el) {
+	        this.doms.forEach(function (el) {
 	          return el.setAttribute(attribute, value);
 	        });
 	      } else {
-	        return this.array[0].getAttribute(attribute);
+	        return this.doms[0].getAttribute(attribute);
 	      }
 	    }
 	  }, {
 	    key: "addClass",
 	    value: function addClass(newClass) {
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        var current = el.getAttribute("class");
 	        if (current) {
 	          if (current.indexOf(newClass) === -1) {
@@ -216,7 +216,7 @@
 	  }, {
 	    key: "removeClass",
 	    value: function removeClass(removedClass) {
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        var current = el.getAttribute("class");
 	        if (current && current.indexOf(removedClass) != -1) {
 	          var index = current.indexOf(removedClass);
@@ -229,7 +229,7 @@
 	    key: "children",
 	    value: function children() {
 	      var children = [];
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return children.push(el.children);
 	      });
 	      return new DOMCollection(children);
@@ -238,7 +238,7 @@
 	    key: "parent",
 	    value: function parent() {
 	      var parent = [];
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return parent.push(el.parentNode);
 	      });
 	      return new DOMCollection(parent);
@@ -247,7 +247,7 @@
 	    key: "find",
 	    value: function find(selector) {
 	      var doms = [];
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return doms.push(el.querySelectorAll(selector));
 	      });
 	      return new DOMCollection(doms);
@@ -255,22 +255,22 @@
 	  }, {
 	    key: "remove",
 	    value: function remove() {
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return el.parentNode.removeChild(el);
 	      });
-	      this.array = [];
+	      this.doms = [];
 	    }
 	  }, {
 	    key: "on",
 	    value: function on(occurence, callback) {
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return el.addEventListener(occurence, callback);
 	      });
 	    }
 	  }, {
 	    key: "off",
 	    value: function off(occurence, callback) {
-	      this.array.forEach(function (el) {
+	      this.doms.forEach(function (el) {
 	        return el.removeEventListener(occurence, callback);
 	      });
 	    }
