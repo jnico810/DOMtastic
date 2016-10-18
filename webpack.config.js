@@ -2,9 +2,9 @@ var path = require("path");
 
 module.exports = {
   context: __dirname,
-  entry: "./lib/main.js",
+  entry: "./DOMtastic/main.js",
   output: {
-    path: "./lib",
+    path: "./DOMtastic",
     filename: "bundle.js"
   },
   module: {

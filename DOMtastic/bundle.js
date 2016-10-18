@@ -46,6 +46,10 @@
 
 	"use strict";
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _dom_node_collection = __webpack_require__(1);
 	
 	var _dom_node_collection2 = _interopRequireDefault(_dom_node_collection);
@@ -120,6 +124,8 @@
 	  xhr.send(defaults.data);
 	  xhr.setRequestHeader("Content-Type", contentType);
 	};
+	exports.default = dT;
+	
 	
 	window.dT = dT;
 

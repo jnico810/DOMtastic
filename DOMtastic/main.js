@@ -62,5 +62,6 @@ dT.ajax = (options) => {
   xhr.send(defaults.data);
   xhr.setRequestHeader("Content-Type", contentType);
 };
+export default dT;
 
 window.dT = dT;
