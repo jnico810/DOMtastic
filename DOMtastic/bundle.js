@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -81,49 +81,58 @@
 	  }
 	};
 	
-	dT.extend = function () {
-	  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	    args[_key] = arguments[_key];
+	dT.extend = function (first) {
+	  for (var _len = arguments.length, otherObjects = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    otherObjects[_key - 1] = arguments[_key];
 	  }
 	
-	  var firstArg = args[0];
-	  args.slice(1).forEach(function (obj) {
+	  otherObjects.forEach(function (obj) {
 	    for (var property in obj) {
-	      firstArg[property] = obj[property];
+	      first[property] = obj[property];
 	    }
 	  });
+	  return first;
 	};
 	
 	dT.ajax = function (options) {
+	  var xmlReq = new XMLHttpRequest();
 	
-	  defaults = {
-	    method: "GET",
+	  var defaults = {
 	    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-	    dataType: 'json',
-	    data: {},
-	    success: function success(data) {
-	      console.log("SUCCESS");
-	    },
-	    error: function error(data) {
-	      console.log("ERROR");
-	    },
-	    url: document.URL
+	    method: "GET",
+	    url: "",
+	    success: function success() {},
+	    error: function error() {},
+	    data: {}
 	  };
+	  options = dT.extend(defaults, options);
+	  options.method = options.method.toUpperCase();
 	
-	  undefined.extend(defaults, options);
+	  if (options.method === "GET" && Object.keys(options.data).length > 0) {
+	    options.url += "?" + _toQueryString(options.data);
+	  }
 	
-	  var xhr = new XMLHttpRequest();
-	  xhr.open(defaults.method, defaults.url);
-	  xhr.onload = function () {
-	    if (xhr.status === 200) {
-	      return defaults.success(JSON.parse(xhr.response));
+	  xmlReq.open(options.method, options.url, true);
+	  xmlReq.onload = function (e) {
+	    if (xmlReq.status === 200) {
+	      options.success(JSON.parse(xmlReq.response));
 	    } else {
-	      return defaults.error(JSON.parse(xhr.response));
+	      options.error(JSON.parse(xmlReq.response));
 	    }
 	  };
-	  xhr.send(defaults.data);
-	  xhr.setRequestHeader("Content-Type", contentType);
+	  xmlReq.send(JSON.stringify(options.data));
 	};
+	
+	var _toQueryString = function _toQueryString(obj) {
+	  var result = "";
+	  for (var prop in obj) {
+	    if (obj.hasOwnProperty(prop)) {
+	      result += prop + "=" + obj[prop] + "&";
+	    }
+	  }
+	  return result.substring(0, result.length - 1);
+	};
+	
 	exports.default = dT;
 	
 	

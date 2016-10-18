@@ -27,41 +27,55 @@ const dT = (selector) => {
   }
 };
 
-dT.extend = (...args) => {
-  const firstArg = args[0];
-  args.slice(1).forEach((obj) => {
+dT.extend = (first, ...otherObjects) => {
+  otherObjects.forEach((obj) => {
     for (let property in obj) {
-      firstArg[property] = obj[property];
+      first[property] = obj[property];
     }
   });
+  return first;
 };
+
 
 dT.ajax = (options) => {
+  const xmlReq = new XMLHttpRequest();
 
-  defaults = {
+  const defaults = {
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     method: "GET",
-    contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-    dataType : 'json',
+    url: "",
+    success: () => {},
+    error: () => {},
     data: {},
-    success: (data)=> {console.log("SUCCESS");},
-    error:(data)=> {console.log("ERROR");},
-    url: document.URL
   };
+  options = dT.extend(defaults, options);
+  options.method = options.method.toUpperCase();
 
-  this.extend(defaults, options);
+  if (options.method === "GET" && Object.keys(options.data).length > 0){
+    options.url += "?" + _toQueryString(options.data);
+  }
 
-  const xhr = new XMLHttpRequest();
-  xhr.open(defaults.method, defaults.url);
-  xhr.onload = function() {
-    if (xhr.status === 200){
-      return defaults.success(JSON.parse(xhr.response));
+  xmlReq.open(options.method, options.url, true);
+  xmlReq.onload = (e) => {
+    if (xmlReq.status === 200){
+      options.success(JSON.parse(xmlReq.response));
     } else {
-      return defaults.error(JSON.parse(xhr.response));
+      options.error(JSON.parse(xmlReq.response));
     }
   };
-  xhr.send(defaults.data);
-  xhr.setRequestHeader("Content-Type", contentType);
+  xmlReq.send(JSON.stringify(options.data));
 };
+
+const _toQueryString = obj => {
+  let result = "";
+  for (let prop in obj){
+    if (obj.hasOwnProperty(prop)){
+      result += prop + "=" + obj[prop] + "&";
+    }
+  }
+  return result.substring(0, result.length - 1);
+};
+
 export default dT;
 
 window.dT = dT;

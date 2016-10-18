@@ -41,6 +41,27 @@ dT('ul').doms[0] //Returns the first element;
 
 API
 --------------------------------------------
+## Class Methods
+
+#### .ajax(options)
+To create an ajax request pass options:
+
+```bash
+dT.ajax({
+  type: 'GET',
+  url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=6f2bde3f2607e6ee081c27f201a288f6",
+  success(data) {
+    console.log("We have your weather!")
+    console.log(data);
+  },
+  error() {
+    console.error("An error occurred.");
+  }
+});
+```
+
+
+## Instance Methods
 
 #### .addClass(newClass)
 
