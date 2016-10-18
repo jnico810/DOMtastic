@@ -1,2 +1,4 @@
 .DS_Store
 .byebug_history
+.jhintrc
+node_modules/
