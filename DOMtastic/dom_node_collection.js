@@ -1,7 +1,10 @@
 class DOMCollection {
   constructor(doms) {
     this.doms = doms;
+    /*TOADDTOREADME*/this.first = this.doms[0];
+    /*TOADDTOREADME*/this.last = this.doms[this.doms.length-1];
   }
+
   html(newHTML){
     if (newHTML){
       this.doms.forEach((el) => el.innerHTML = newHTML);
@@ -28,6 +31,24 @@ class DOMCollection {
     } else if (typeof child === "string"){
       this.doms.forEach((el) => {
         el.innerHTML += child;
+      });
+    }
+  }
+
+  /*TOADDTOREADME*/prepend(child){
+    if (child instanceof DOMCollection) {
+      this.doms.forEach((el) => (
+        child.doms.forEach((childEl) => (
+          el.innerHTML = childEl.outerHTML + el.innerHTML
+        ))
+      ));
+    } else if (child instanceof HTMLElement) {
+      this.doms.forEach((el) => {
+        el.innerHTML = child.outerHTML + el.innerHTML;
+      });
+    } else if (typeof child === "string"){
+      this.doms.forEach((el) => {
+        el.innerHTML = child + el.innerHTML;
       });
     }
   }
@@ -95,6 +116,10 @@ class DOMCollection {
 
   off(occurence, callback){
     this.doms.forEach((el) => el.removeEventListener(occurence, callback));
+  }
+
+  /*TOADDTOREADME*/click(callback){
+    this.doms.forEach((el) => el.addEventListener('click', callback));
   }
 }
 
