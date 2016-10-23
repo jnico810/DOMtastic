@@ -2,5 +2,5 @@
 .byebug_history
 .jshintrc
 node_modules/
-bundle_js
+bundle.js
 bundle.js.map
