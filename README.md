@@ -110,6 +110,12 @@ To retrieve the descendants of each element in the current set of matched elemen
 dT('ul').find('li')
 ```
 
+#### .first
+To retrieve the first element of all matched elements:
+```bash
+dT('ul').first
+```
+
 #### .html(newHTML)
 
 To change the innerHTML of each matched element:
@@ -121,16 +127,34 @@ To find the innerHTML of the first element, do not supply a parameter:
 dT('ul').html();
 ```
 
+#### .last
+To retrieve the last element of all matched elements:
+```bash
+dT('ul').last
+```
+
 #### .parent()
 To retrieve the parents of all matched elements as an array:
 ```bash
 dT('ul').parent();
 ```
 
-#### .remove()
-To remove a elements from the document:
+#### .prepend()
+To prepend an HTMLElement, dT Collection or string to each matched element:
 ```bash
-dT('ul').remove('li') //Removes all 'li' that are descendants of matched 'ul'
+dT('ul').prepend('<h1>New child</h1>')
+```
+
+#### .remove()
+To remove all matched elements from the document:
+```bash
+dT('ul').remove()
+```
+
+#### .removeFirst()
+To remove first matched element from the document:
+```bash
+dT('ul').removeFirst()
 ```
 
 #### .removeClass(oldClass)
@@ -140,6 +164,13 @@ dT('ul').removeClass('big-list');
 ```
 
 ### Event Listeners
+
+#### .click()
+
+To run callback function when a 'click' action is triggered:
+```bash
+dT('ul').click)(() => console.log('ul clicked!'));
+```
 
 #### .on(action, callback)
 To run callback function when a given 'action' is triggered:

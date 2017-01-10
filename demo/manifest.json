@@ -9,9 +9,12 @@
     "default_popup": "popup.html",
     "default_title": "Click here!"
   },
-  "background": {
-    "scripts": ["background.js"]
-  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["main.js"]
+    }
+  ],
   "permissions": [
     "http://*/*",
     "activeTab",
