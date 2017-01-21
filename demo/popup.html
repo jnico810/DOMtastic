@@ -1,53 +1,17 @@
 <!doctype html>
 <html>
   <head>
-    <title>Set Page Color Popup</title>
-    <style>
-    body {
-      overflow: hidden;
-      margin: 0px;
-      padding: 0px;
-      background: white;
-    }
-    div:first-child {
-      margin-top: 0px;
-    }
-    div {
-      cursor: pointer;
-      text-align: center;
-      padding: 1px 3px;
-      font-family: sans-serif;
-      font-size: 0.8em;
-      width: 100px;
-      margin-top: 1px;
-      background: #cccccc;
-    }
-    div:hover {
-      background: #aaaaaa;
-    }
-    #red {
-      border: 1px solid red;
-      color: red;
-    }
-    #blue {
-      border: 1px solid blue;
-      color: blue;
-    }
-    #green {
-      border: 1px solid green;
-      color: green;
-    }
-    #yellow {
-      border: 1px solid yellow;
-      color: yellow;
-    }
-    </style>
+    <script type="application/javascript" src="bundle.js"></script>
+    <link rel="stylesheet" href="css/popup.css">
     <script src="popup.js"></script>
   </head>
   <body>
-    <div id="red">red</div>
-    <div id="blue">blue</div>
-    <div id="green">green</div>
-    <div id="yellow">yellow</div>
+    <label for="element">Selector:</label>
+    <input type="text" id="element" name="element">
+    <label for="style">Style-Property:</label>
+    <input type="text" id="style" name="style">
+    <textarea name="name" rows="8" cols="80" id="ide"></textarea>
+    <input type="range" min="20" max="60" id="range">
+    <button type="button" id="submit">Make Some Changes</button>
   </body>
 </html>

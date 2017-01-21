@@ -2,7 +2,4 @@
 .byebug_history
 .jshintrc
 node_modules/
-bundle.js
 bundle.js.map
-
-/demo

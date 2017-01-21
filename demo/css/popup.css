@@ -1,0 +1,12 @@
+input {
+  padding:5px;
+  margin: 10px;
+}
+textarea {
+  padding: 10px;
+}
+textarea, pre {
+-moz-tab-size : 2;
+  -o-tab-size : 2;
+     tab-size : 2;
+}
