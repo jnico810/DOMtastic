@@ -13,17 +13,10 @@ dT(() => {
 });
 
 function setupKeyStrokes() {
-  var tab = 0;
-  var lineTabs = [];
   dT("#ide").on("keydown", function (e) {
-    let lineNumber = this.value.substr(0, this.selectionStart).split("\n").length;
-    // console.log(lineNumber);
-
     if (e.keyCode === 9 || e.which === 9) {
       e.preventDefault();
       s = this.selectionStart;
-      tab += 1;
-      // console.log(tab);
       this.value = this.value.substring(0,this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
       this.selectionEnd = s+1;
     } else if ((e.keyCode === 219 || e.which === 219) && e.shiftKey) {
@@ -36,21 +29,16 @@ function setupKeyStrokes() {
       if (this.value[s - 1] === "{") {
         e.preventDefault();
         this.value = this.value.substring(0,this.selectionStart) + "\n\t\n" + this.value.substring(this.selectionEnd);
-        tab += 1;
-        // console.log(tab);
         this.selectionEnd = s+2;
       } else {
-        // debugger
         let lines = this.value.substr(0, this.selectionStart).split("\n");
         let tabs = lines[lines.length - 1].split("\t");
         let tabNums = tabs.length - 1;
-        // debugger;
         e.preventDefault();
         let tabString = "";
         for (var i = 0; i < tabNums; i++){
           tabString += "\t";
         }
-        // debugger
         this.value = this.value.substring(0, this.selectionStart) + "\n" + tabString + this.value.substring(this.selectionEnd);
         this.selectionEnd = s + 2;
       }
@@ -60,17 +48,11 @@ function setupKeyStrokes() {
         e.preventDefault();
         this.value = this.value.substring(0,this.selectionStart - 1) + this.value.substring(this.selectionEnd + 1);
         this.selectionEnd = s - 1;
-      } else if(this.value[s - 1] === "\t"){
-        tab -= 1;
-        // console.log(tab);
       }
     }
   });
 
-  dT("#submit").click(function(e){
-    var array = dT("#ide").first.value.split(/{|}/);
-    console.log(array);
-  });
+  dT("#ide").on("keyup", parseIDE());
 }
 
 function setupEvents(){
@@ -80,4 +62,38 @@ function setupEvents(){
     let style = "var style = \"" + dT("#style").first.value + "\";";
     let code = fontSize + "\n" + element + "\n" + style;
   });
+}
+
+function parseIDE(){
+  let selectorsChanged = [];
+  return function (e){
+    var array = dT("#ide").first.value.split(/{|}/);
+    var selectors = [];
+    var styles = [];
+    for (var i = 0; i < array.length - 1; i ++){
+      let el = array[i].trim();
+      if (i % 2 === 0){
+        selectors.push(el);
+        if (selectorsChanged.indexOf(el) === -1){
+          selectorsChanged.push(el);
+        }
+      } else {
+        styles.push(el.split("\n").map(function(el) {
+          return el.trim();
+        }).join(" "));
+      }
+    }
+    selectorsChanged.forEach(function(el, idx) {
+      if (selectors.indexOf(el) === -1){
+        dT(el).attr("style", " " );
+        selectorsChanged.splice(idx, 1);
+      }
+    });
+    selectors.forEach(function(selector, idx){
+      if (dT(selector).first){
+
+        dT(selector).attr("style", styles[idx] );
+      }
+    });
+  };
 }
