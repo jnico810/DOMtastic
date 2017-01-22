@@ -1,49 +1,49 @@
+dT(() => {
+  chrome.tabs.executeScript(null, {file:"bundle.js"});
+  setupIDEKeyStrokes();
+  setupButtonEvents();
+});
 
-function click(e) {
-  let color = "var color= \"" + e.currentTarget.id + "\";";
-  chrome.tabs.executeScript(null,
-      {code:color}, function() {
-    chrome.tabs.executeScript(null, {file: 'inject.js'});
+function setupButtonEvents(){
+  dT("#demo").click(function(e){
+    dT("#ide").first.value = "div {\n border: 1px solid red}";
+    parseIDE()();
+  });
+
+  dT("#reset").click(function(e){
+
   });
 }
 
-dT(() => {
-  setupKeyStrokes();
-  setupEvents();
-});
-
-function setupKeyStrokes() {
+function setupIDEKeyStrokes() {
   dT("#ide").on("keydown", function (e) {
+    s = this.selectionStart;
+    let startString = this.value.substring(0,this.selectionStart);
+    let endString = this.value.substring(this.selectionEnd);
+    //Tab hit
     if (e.keyCode === 9 || e.which === 9) {
       e.preventDefault();
-      s = this.selectionStart;
-      this.value = this.value.substring(0,this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
+      this.value = startString + "\t" + endString;
       this.selectionEnd = s+1;
     } else if ((e.keyCode === 219 || e.which === 219) && e.shiftKey) {
+      //{ hit
       e.preventDefault();
-      s = this.selectionStart;
-      this.value = this.value.substring(0,this.selectionStart) + "{}" + this.value.substring(this.selectionEnd);
+      this.value = startString + "{}" + endString;
       this.selectionEnd = s+1;
     } else if ((e.keyCode === 13 || e.which === 13)){
-      s = this.selectionStart;
+      //enter hit
+      e.preventDefault();
       if (this.value[s - 1] === "{") {
-        e.preventDefault();
-        this.value = this.value.substring(0,this.selectionStart) + "\n\t\n" + this.value.substring(this.selectionEnd);
+        this.value = startString + "\n\t\n" + endString;
         this.selectionEnd = s+2;
       } else {
         let lines = this.value.substr(0, this.selectionStart).split("\n");
-        let tabs = lines[lines.length - 1].split("\t");
-        let tabNums = tabs.length - 1;
-        e.preventDefault();
-        let tabString = "";
-        for (var i = 0; i < tabNums; i++){
-          tabString += "\t";
-        }
-        this.value = this.value.substring(0, this.selectionStart) + "\n" + tabString + this.value.substring(this.selectionEnd);
+        let tabString = calculateTabs(lines);
+        this.value = startString + "\n" + tabString + endString;
         this.selectionEnd = s + 2;
       }
     } else if ((e.keyCode === 8 || e.which === 8)) {
-      s = this.selectionStart;
+      //backspace hit
       if (this.value[s - 1] === "{" && this.value[s] === "}") {
         e.preventDefault();
         this.value = this.value.substring(0,this.selectionStart - 1) + this.value.substring(this.selectionEnd + 1);
@@ -51,17 +51,17 @@ function setupKeyStrokes() {
       }
     }
   });
-
   dT("#ide").on("keyup", parseIDE());
 }
 
-function setupEvents(){
-  dT('#range').on("change", function (e){
-    let fontSize = "var fontSize = " + e.currentTarget.value + ";";
-    let element = "var element = \"" + dT("#element").first.value + "\";";
-    let style = "var style = \"" + dT("#style").first.value + "\";";
-    let code = fontSize + "\n" + element + "\n" + style;
-  });
+function calculateTabs(lines){
+  let tabs = lines[lines.length - 1].split("\t");
+  let tabNums = tabs.length - 1;
+  let tabString = "";
+  for (var i = 0; i < tabNums; i++){
+    tabString += "\t";
+  }
+  return tabString;
 }
 
 function parseIDE(){
@@ -85,15 +85,15 @@ function parseIDE(){
     }
     selectorsChanged.forEach(function(el, idx) {
       if (selectors.indexOf(el) === -1){
-        dT(el).attr("style", " " );
+        let code = "dT(\"" + el + "\").attr(\"style\", \" \");";
+        chrome.tabs.executeScript(null, {code:code});
         selectorsChanged.splice(idx, 1);
       }
     });
     selectors.forEach(function(selector, idx){
-      if (dT(selector).first){
-
-        dT(selector).attr("style", styles[idx] );
-      }
+        let conditionalStart = "if (dT(\"" + selector + "\").first){";
+        let code = "dT(\"" + selector + "\").attr(\"style\",\"" + styles[idx] + "\");}";
+        chrome.tabs.executeScript(null, { code: conditionalStart + code });
     });
   };
 }

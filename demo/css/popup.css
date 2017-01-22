@@ -1,5 +1,5 @@
 html{
-  font-size: 14px;
+  font: 14px Arial;
 }
 
 input {
@@ -11,8 +11,36 @@ textarea {
   padding: 10px;
   font-size: 14px;
 }
+
 textarea, pre {
 -moz-tab-size : 2;
   -o-tab-size : 2;
      tab-size : 2;
+}
+
+button {
+  margin: 0 5px;
+  padding: 8px;
+  border-radius: 4px;
+  color:white;
+  border: 1px solid white;
+  font-size:14px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#demo {
+  background-color: #57ed9f;
+}
+
+#reset {
+  background-color: #ff9b9b;
 }
