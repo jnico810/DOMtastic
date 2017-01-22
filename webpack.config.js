@@ -9,7 +9,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: [/\.jsx?$/, /\.js?$/],
+      {test: [/\.js?$/],
       exclude: /(node_modules|bower_components)/,
       loader: 'babel',
       query: {
@@ -20,6 +20,6 @@ module.exports = {
   },
   devtool: 'source-maps',
   resolve: {
-    extensions: ["", ".js"]
+    extensions: [".js"]
   }
 };
