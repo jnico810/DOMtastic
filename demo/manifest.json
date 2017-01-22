@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "author": "John Nico",
-  "name": "CSS Live",
+  "name": "CSS DOMtastic",
   "description": "Use this extension to edit CSS in real time!",
   "version": "0.20",
   "browser_action": {
