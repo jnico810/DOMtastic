@@ -1,21 +1,27 @@
 dT(() => {
   chrome.tabs.executeScript(null, {file:"bundle.js"});
-  setupIDEKeyStrokes();
-  setupButtonEvents();
+  var selectorsChanged = [];
+  setupIDEKeyStrokes(selectorsChanged);
+  setupButtonEvents(selectorsChanged);
 });
 
-function setupButtonEvents(){
+function setupButtonEvents(selectorsChanged){
   dT("#demo").click(function(e){
-    dT("#ide").first.value = "div {\n border: 1px solid red}";
-    parseIDE()();
+    dT("#ide").first.value = "div {\n border: 1px dashed pink;\n color: red; \n}";
+    parseIDE(selectorsChanged)();
   });
 
   dT("#reset").click(function(e){
-
+    selectorsChanged.forEach(function(el, idx) {
+      let code = "dT(\"" + el + "\").attr(\"style\", \" \");";
+      chrome.tabs.executeScript(null, {code:code});
+      selectorsChanged.splice(idx, 1);
+    });
+    dT("#ide").first.value = "";
   });
 }
 
-function setupIDEKeyStrokes() {
+function setupIDEKeyStrokes(selectorsChanged) {
   dT("#ide").on("keydown", function (e) {
     s = this.selectionStart;
     let startString = this.value.substring(0,this.selectionStart);
@@ -33,6 +39,8 @@ function setupIDEKeyStrokes() {
     } else if ((e.keyCode === 13 || e.which === 13)){
       //enter hit
       e.preventDefault();
+      e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
+      // debugger
       if (this.value[s - 1] === "{") {
         this.value = startString + "\n\t\n" + endString;
         this.selectionEnd = s+2;
@@ -51,7 +59,7 @@ function setupIDEKeyStrokes() {
       }
     }
   });
-  dT("#ide").on("keyup", parseIDE());
+  dT("#ide").on("keyup", parseIDE(selectorsChanged));
 }
 
 function calculateTabs(lines){
@@ -64,8 +72,8 @@ function calculateTabs(lines){
   return tabString;
 }
 
-function parseIDE(){
-  let selectorsChanged = [];
+function parseIDE(changed){
+  let selectorsChanged = changed;
   return function (e){
     var array = dT("#ide").first.value.split(/{|}/);
     var selectors = [];

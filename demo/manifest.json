@@ -1,12 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "CSS IDE",
+  "author": "John Nico",
+  "name": "CSS IDE DOMtastic",
   "description": "This extension shows all DOM elements for a given selector",
   "version": "0.1",
   "browser_action": {
     "default_icon": "/images/dT.png",
     "default_popup": "popup.html",
-    "default_title": "Click here!"
+    "default_title": "Write some CSS!"
   },
   "content_scripts": [
     {
