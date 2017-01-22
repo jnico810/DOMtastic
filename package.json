@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jnico810/WRK-W6D5.git"
+    "url": "git+https://github.com/jnico810/DOMtastic.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jnico810/WRK-W6D5/issues"
+    "url": "https://github.com/jnico810/DOMtastic/issues"
   },
-  "homepage": "https://github.com/jnico810/WRK-W6D5#readme"
+  "homepage": "https://github.com/jnico810/DOMtastic#readme"
 }

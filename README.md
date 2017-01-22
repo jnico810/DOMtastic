@@ -12,12 +12,10 @@ To import DOMtastic:
 import dT from './DOMTastic/main.js'
 ```
 
-DEMO
+Demo DOMtastic
 --------------------------------------------
 I have created a Google Chrome Extension that utilizes DOMtastic and allows users to change CSS on the spot!
-
 Download my extension [here](https://chrome.google.com/webstore/detail/css-domtastic/ijnmbepagbhjkdpoklekanbkcgdlghcj)  and try changing CSS on any page!
-
 
 How to Use
 --------------------------------------------
