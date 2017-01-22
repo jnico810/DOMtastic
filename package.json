@@ -1,5 +1,4 @@
-{
-  "name": "DOMtastic",
+{ "name": "DOMtastic",
   "version": "1.0.3",
   "description": "",
   "main": "webpack.config.js",
