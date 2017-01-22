@@ -3,7 +3,7 @@
   "author": "John Nico",
   "name": "CSS DOMtastic",
   "description": "Use this extension to edit CSS in real time!",
-  "version": "0.20",
+  "version": "0.21",
   "browser_action": {
     "default_icon": "/images/dT.png",
     "default_popup": "popup.html",
