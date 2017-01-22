@@ -3,7 +3,7 @@ DOMtastic - Faster Document Manipulation
 
 What is DOMtastic?
 --------------------------------------------------
-DOMTastic is a lean and concise JavaScript Library designed to simplify HTML document traversing, event handling and Ajax interactions. At less then 300 lines of code, DOMtastic is a faster alternative to similar JavaScript libraries.
+DOMTastic is a lean and concise JavaScript Library designed to simplify HTML document traversing, event handling and Ajax interactions. At less than 300 lines of code, DOMtastic is a smaller alternative to similar JavaScript libraries.
 
 How to Import
 --------------------------------------------
@@ -11,6 +11,13 @@ To import DOMtastic:
 ```bash
 import dT from './DOMTastic/main.js'
 ```
+
+DEMO
+--------------------------------------------
+I have created a Google Chrome Extension that utilizes DOMtastic and allows users to change CSS on the spot!
+
+Download my extension [here](https://chrome.google.com/webstore/detail/css-domtastic/ijnmbepagbhjkdpoklekanbkcgdlghcj)  and try changing CSS on any page!
+
 
 How to Use
 --------------------------------------------
